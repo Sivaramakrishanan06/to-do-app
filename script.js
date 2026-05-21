@@ -3,10 +3,20 @@ let tasks = [];
 window.onload = () => {
   const saved = localStorage.getItem("tasks");
   if (saved) {
-    tasks = JSON.parse(saved);
-    renderTasks();
+    try {
+      tasks = JSON.parse(saved);
+    } catch {
+      tasks = [];
+      localStorage.removeItem("tasks");
+    }
   }
+
+  renderTasks();
 };
+
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 function addTask() {
   const input = document.getElementById("task-input");
@@ -16,7 +26,7 @@ function addTask() {
   if (!text) return;
 
   tasks.push({ text, completed: false, dueDate });
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  saveTasks();
   input.value = "";
   document.getElementById("due-date").value = "";
   renderTasks();
@@ -30,38 +40,60 @@ function renderTasks() {
     const li = document.createElement("li");
     if (task.completed) li.classList.add("completed");
 
-    li.innerHTML = `
-      <span onclick="toggleComplete(${index})">${task.text} 
-        ${task.dueDate ? `<br><small>Due: ${task.dueDate}</small>` : ""}</span>
-      <div>
-        <button onclick="editTask(${index})">✏️</button>
-        <button onclick="deleteTask(${index})">🗑️</button>
-      </div>
-    `;
+    const taskContent = document.createElement("span");
+    taskContent.onclick = () => toggleComplete(index);
+    taskContent.appendChild(document.createTextNode(task.text));
 
+    if (task.dueDate) {
+      taskContent.appendChild(document.createElement("br"));
+
+      const dueDate = document.createElement("small");
+      dueDate.textContent = `Due: ${task.dueDate}`;
+      taskContent.appendChild(dueDate);
+    }
+
+    const actions = document.createElement("div");
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.textContent = "✏️";
+    editButton.onclick = () => editTask(index);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "🗑️";
+    deleteButton.onclick = () => deleteTask(index);
+
+    actions.append(editButton, deleteButton);
+    li.append(taskContent, actions);
     list.appendChild(li);
   });
+
+  filterTasks();
 }
 
 function toggleComplete(index) {
   tasks[index].completed = !tasks[index].completed;
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  saveTasks();
   renderTasks();
 }
 
 function deleteTask(index) {
   tasks.splice(index, 1);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  saveTasks();
   renderTasks();
 }
 
 function editTask(index) {
   const updated = prompt("Edit your task:", tasks[index].text);
-  if (updated) {
-    tasks[index].text = updated;
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    renderTasks();
-  }
+  if (updated === null) return;
+
+  const text = updated.trim();
+  if (!text) return;
+
+  tasks[index].text = text;
+  saveTasks();
+  renderTasks();
 }
 
 function clearAllTasks() {
