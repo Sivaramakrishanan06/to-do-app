@@ -1,6 +1,8 @@
 let tasks = [];
 
 window.onload = () => {
+  loadTheme();
+
   const saved = localStorage.getItem("tasks");
   if (saved) {
     try {
@@ -13,6 +15,28 @@ window.onload = () => {
 
   renderTasks();
 };
+
+function loadTheme() {
+  const savedTheme = localStorage.getItem("theme");
+  const isDark = savedTheme === "dark";
+
+  document.body.classList.toggle("dark-mode", isDark);
+  updateThemeButton(isDark);
+}
+
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle("dark-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  updateThemeButton(isDark);
+}
+
+function updateThemeButton(isDark) {
+  const button = document.getElementById("theme-toggle");
+  if (!button) return;
+
+  button.textContent = isDark ? "☀️" : "🌙";
+  button.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+}
 
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
