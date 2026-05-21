@@ -7,11 +7,18 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   background: #f0f4f8;
+  color: #2b2b2b;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 50px;
+  padding: 50px 16px 0;
   min-height: 100vh;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+body.dark-mode {
+  background: #050505;
+  color: #f4f4f5;
 }
 
 .app-container {
@@ -21,12 +28,45 @@ body {
   max-width: 500px;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+body.dark-mode .app-container {
+  background: #171717;
+  box-shadow: 0 10px 30px rgba(255,255,255,0.08);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 h1 {
-  text-align: center;
-  margin-bottom: 20px;
   color: #2b2b2b;
+  font-size: 28px;
+}
+
+body.dark-mode h1 {
+  color: #f4f4f5;
+}
+
+.theme-toggle {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #e8f1ff;
+  color: #111827;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+body.dark-mode .theme-toggle {
+  background: #2f3542;
+  color: #f8fafc;
 }
 
 .input-group {
@@ -37,12 +77,31 @@ h1 {
 }
 
 .input-group input[type="text"],
-.input-group input[type="date"] {
-  flex: 1 1 auto;
+.input-group input[type="date"],
+#search {
   padding: 10px;
   font-size: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  background: #fff;
+  color: #222;
+}
+
+.input-group input[type="text"],
+.input-group input[type="date"] {
+  flex: 1 1 auto;
+}
+
+body.dark-mode .input-group input[type="text"],
+body.dark-mode .input-group input[type="date"],
+body.dark-mode #search {
+  background: #262626;
+  border-color: #3f3f46;
+  color: #f4f4f5;
+}
+
+body.dark-mode input::placeholder {
+  color: #a1a1aa;
 }
 
 .input-group button {
@@ -57,10 +116,7 @@ h1 {
 
 #search {
   width: 100%;
-  padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
 }
 
 ul#task-list {
@@ -77,6 +133,12 @@ ul#task-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+body.dark-mode ul#task-list li {
+  background: #262626;
+  border-color: #3f3f46;
 }
 
 ul#task-list li.completed span {
@@ -87,6 +149,10 @@ ul#task-list li.completed span {
 ul#task-list li small {
   font-size: 12px;
   color: #666;
+}
+
+body.dark-mode ul#task-list li small {
+  color: #a1a1aa;
 }
 
 ul#task-list li div button {
