@@ -90,3 +90,26 @@ button.danger { background: var(--danger); }
   .topbar { flex-direction: column; align-items: flex-start; }
   .row, .row + .row { grid-template-columns: 1fr; }
 }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 55%, white);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .card, .auth-panel { padding: 14px; border-radius: 12px; }
+  button, input, select { min-height: 44px; }
+}

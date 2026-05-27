@@ -19,10 +19,11 @@
         <input id="auth-email" type="email" placeholder="Email" />
         <input id="auth-password" type="password" placeholder="Password" />
         <div class="auth-actions">
-          <button type="button" onclick="registerUser()">Create Account</button>
-          <button type="button" class="ghost" onclick="loginUser()">Sign In</button>
+          <button id="register-btn" type="button">Create Account</button>
+          <button id="login-btn" type="button" class="ghost">Sign In</button>
         </div>
         <small id="auth-message" aria-live="polite"></small>
+        <span id="sr-live" class="sr-only" aria-live="polite"></span>
       </div>
     </aside>
 
@@ -33,9 +34,9 @@
           <p id="welcome-subtitle">Stay focused and ship your best work.</p>
         </div>
         <div class="top-actions">
-          <button id="reminder-btn" type="button" class="ghost" onclick="enableReminders()">Enable Reminders</button>
-          <button id="theme-toggle" type="button" onclick="toggleDarkMode()" aria-label="Toggle theme">🌙</button>
-          <button type="button" onclick="logoutUser()">Logout</button>
+          <button id="reminder-btn" type="button" class="ghost">Enable Reminders</button>
+          <button id="theme-toggle" type="button" aria-label="Switch to dark theme">🌙</button>
+          <button id="logout-btn" type="button">Logout</button>
         </div>
       </header>
 
@@ -49,30 +50,30 @@
       <section class="card ai-planner">
         <div class="section-title">
           <h3>AI Productivity Assistant</h3>
-          <button type="button" class="ghost" onclick="generateAIPlan()">Generate Plan</button>
+          <button id="ai-plan-btn" type="button" class="ghost">Generate Plan</button>
         </div>
         <p id="ai-plan">No insights yet. Add tasks and ask AI to prioritize your day.</p>
       </section>
 
       <section class="task-controls card">
         <div class="row">
-          <input id="task-input" type="text" placeholder="What needs to get done?" />
+          <input id="task-input" type="text" maxlength="180" placeholder="What needs to get done?" aria-label="Task description" />
           <select id="task-priority">
             <option value="high">High</option>
             <option value="medium" selected>Medium</option>
             <option value="low">Low</option>
           </select>
           <input id="due-date" type="date" />
-          <button type="button" onclick="addTask()">Add Task</button>
+          <button id="add-task-btn" type="button">Add Task</button>
         </div>
         <div class="row">
-          <input type="text" id="search" placeholder="Search tasks..." oninput="renderTasks()" />
-          <select id="status-filter" onchange="renderTasks()">
+          <input type="text" id="search" placeholder="Search tasks..." aria-label="Search tasks" />
+          <select id="status-filter" aria-label="Filter by status">
             <option value="all">All</option>
             <option value="open">Open</option>
             <option value="done">Done</option>
           </select>
-          <button type="button" class="danger" onclick="clearAllTasks()">Clear All</button>
+          <button id="clear-all-btn" type="button" class="danger">Clear All</button>
         </div>
       </section>
 
